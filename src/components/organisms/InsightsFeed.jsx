@@ -90,10 +90,9 @@ const InsightsFeed = () => {
                         {insight.category.charAt(0).toUpperCase() + insight.category.slice(1)}
                     </Badge>
                 </div>
-                <p className="text-gray-800 font-body leading-relaxed">
+<p className="text-gray-800 font-body leading-relaxed">
                     {insight.message}
                 </p>
-                {insight.message}
                 {!insight.viewed && <Button
                     variant="ghost"
                     size="sm"
