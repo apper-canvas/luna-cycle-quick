@@ -204,7 +204,6 @@ const profileService = {
     return await profileService.update({
       averageCycleLength: avgCycleLength,
       averagePeriodLength: avgPeriodLength,
-      lastPeriodStart: periodEntries[0].date
 lastPeriodStart: periodEntries[0].date
     });
   }
