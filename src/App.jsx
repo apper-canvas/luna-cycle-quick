@@ -5,6 +5,7 @@ import TodayPage from "@/components/pages/TodayPage";
 import CalendarPage from "@/components/pages/CalendarPage";
 import InsightsPage from "@/components/pages/InsightsPage";
 import ProfilePage from "@/components/pages/ProfilePage";
+import CustomizationsPage from "@/components/pages/CustomizationsPage";
 
 function App() {
   return (
@@ -15,7 +16,8 @@ function App() {
             <Route path="/" element={<TodayPage />} />
             <Route path="/calendar" element={<CalendarPage />} />
             <Route path="/insights" element={<InsightsPage />} />
-            <Route path="/profile" element={<ProfilePage />} />
+<Route path="/profile" element={<ProfilePage />} />
+            <Route path="/customizations" element={<CustomizationsPage />} />
           </Routes>
         </div>
         <BottomNav />
