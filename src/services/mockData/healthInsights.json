@@ -1,0 +1,74 @@
+[
+  {
+    "Id": 1,
+    "type": "tip",
+    "category": "nutrition",
+    "message": "During your follicular phase, focus on protein-rich foods and leafy greens to support energy levels and hormone balance.",
+    "cyclePhase": "follicular",
+    "priority": "medium",
+    "viewed": false
+  },
+  {
+    "Id": 2,
+    "type": "tip",
+    "category": "exercise",
+    "message": "Your energy is peaking! This is a great time for high-intensity workouts and trying new fitness challenges.",
+    "cyclePhase": "ovulation",
+    "priority": "medium",
+    "viewed": false
+  },
+  {
+    "Id": 3,
+    "type": "pattern",
+    "category": "symptom",
+    "message": "You've logged cramps on the first 2 days of your period for the last 3 cycles. Consider trying heat therapy or gentle stretching.",
+    "cyclePhase": "menstrual",
+    "priority": "high",
+    "viewed": true
+  },
+  {
+    "Id": 4,
+    "type": "tip",
+    "category": "mood",
+    "message": "Many experience mood shifts during the luteal phase. Practice self-care and don't be too hard on yourself.",
+    "cyclePhase": "luteal",
+    "priority": "low",
+    "viewed": false
+  },
+  {
+    "Id": 5,
+    "type": "alert",
+    "category": "symptom",
+    "message": "Your cycle length has varied by more than 7 days in the last 2 months. Consider consulting with your healthcare provider.",
+    "cyclePhase": "menstrual",
+    "priority": "high",
+    "viewed": false
+  },
+  {
+    "Id": 6,
+    "type": "tip",
+    "category": "nutrition",
+    "message": "During your period, iron-rich foods like spinach, lentils, and lean meat can help replenish what's lost.",
+    "cyclePhase": "menstrual",
+    "priority": "medium",
+    "viewed": false
+  },
+  {
+    "Id": 7,
+    "type": "tip",
+    "category": "exercise",
+    "message": "Feeling tired? Light yoga or walking can help reduce cramps and boost your mood during your period.",
+    "cyclePhase": "menstrual",
+    "priority": "low",
+    "viewed": true
+  },
+  {
+    "Id": 8,
+    "type": "pattern",
+    "category": "mood",
+    "message": "You've reported feeling energetic during your follicular phase consistently. Your body is responding well to your routine!",
+    "cyclePhase": "follicular",
+    "priority": "low",
+    "viewed": false
+  }
+]

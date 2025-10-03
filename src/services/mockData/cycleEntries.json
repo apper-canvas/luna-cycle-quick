@@ -1,0 +1,74 @@
+[
+  {
+    "Id": 1,
+    "date": "2024-01-15",
+    "flowIntensity": "heavy",
+    "symptoms": ["cramps", "fatigue", "bloating"],
+    "mood": "tired",
+    "notes": "First day, feeling exhausted",
+    "timestamp": "2024-01-15T08:30:00Z"
+  },
+  {
+    "Id": 2,
+    "date": "2024-01-16",
+    "flowIntensity": "heavy",
+    "symptoms": ["cramps", "headache"],
+    "mood": "sad",
+    "notes": "",
+    "timestamp": "2024-01-16T09:15:00Z"
+  },
+  {
+    "Id": 3,
+    "date": "2024-01-17",
+    "flowIntensity": "medium",
+    "symptoms": ["fatigue"],
+    "mood": "neutral",
+    "notes": "",
+    "timestamp": "2024-01-17T10:00:00Z"
+  },
+  {
+    "Id": 4,
+    "date": "2024-01-18",
+    "flowIntensity": "light",
+    "symptoms": [],
+    "mood": "happy",
+    "notes": "Feeling better today",
+    "timestamp": "2024-01-18T11:30:00Z"
+  },
+  {
+    "Id": 5,
+    "date": "2024-01-19",
+    "flowIntensity": "light",
+    "symptoms": [],
+    "mood": "energetic",
+    "notes": "",
+    "timestamp": "2024-01-19T08:45:00Z"
+  },
+  {
+    "Id": 6,
+    "date": "2024-01-25",
+    "flowIntensity": "none",
+    "symptoms": [],
+    "mood": "energetic",
+    "notes": "Feeling great, lots of energy",
+    "timestamp": "2024-01-25T09:00:00Z"
+  },
+  {
+    "Id": 7,
+    "date": "2024-01-29",
+    "flowIntensity": "none",
+    "symptoms": ["bloating"],
+    "mood": "happy",
+    "notes": "",
+    "timestamp": "2024-01-29T10:30:00Z"
+  },
+  {
+    "Id": 8,
+    "date": "2024-02-02",
+    "flowIntensity": "none",
+    "symptoms": ["tender_breasts"],
+    "mood": "anxious",
+    "notes": "PMS symptoms starting",
+    "timestamp": "2024-02-02T08:00:00Z"
+  }
+]

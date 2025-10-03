@@ -1,0 +1,12 @@
+[
+  {
+    "Id": 1,
+    "predictedPeriodStart": "2024-02-12",
+    "predictedPeriodEnd": "2024-02-17",
+    "fertileWindowStart": "2024-01-27",
+    "fertileWindowEnd": "2024-02-01",
+    "ovulationDay": "2024-01-30",
+    "confidence": 85,
+    "basedOnCycles": 6
+  }
+]
