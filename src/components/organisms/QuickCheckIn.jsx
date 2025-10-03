@@ -9,7 +9,7 @@ import FlowSelector from "@/components/molecules/FlowSelector";
 import MoodPicker from "@/components/molecules/MoodPicker";
 import SymptomSelector from "@/components/molecules/SymptomSelector";
 import cycleService from "@/services/api/cycleService";
-
+import aiAnalysisService from "@/services/api/aiAnalysisService";
 const QuickCheckIn = ({ onComplete, existingEntry = null }) => {
   const [flowIntensity, setFlowIntensity] = useState("none");
   const [mood, setMood] = useState("neutral");
@@ -26,25 +26,51 @@ setFlowIntensity(existingEntry.flowIntensity);
     }
   }, [existingEntry]);
 
-  const handleSubmit = async (e) => {
+const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
     try {
       const entryData = {
-date: format(new Date(), "yyyy-MM-dd"),
+        date: format(new Date(), "yyyy-MM-dd"),
         flowIntensity,
         mood,
         symptoms,
         notes
       };
 
+      let savedEntry;
       if (existingEntry) {
-await cycleService.update(existingEntry.Id, entryData);
+        savedEntry = await cycleService.update(existingEntry.Id, entryData);
         toast.success("Check-in updated successfully!");
-} else {
-        await cycleService.create(entryData);
+      } else {
+        savedEntry = await cycleService.create(entryData);
         toast.success("Check-in saved successfully!");
+      }
+
+      // Trigger AI analysis after successful check-in save
+      if (savedEntry && savedEntry.Id) {
+        try {
+          const analysisResult = await aiAnalysisService.invokeAnalysis({
+            ...entryData,
+            checkInId: savedEntry.Id
+          });
+
+          if (analysisResult && analysisResult.analysis) {
+            // Save analysis to database
+            await aiAnalysisService.create({
+              analysisResult: analysisResult.analysis,
+              checkInId: savedEntry.Id,
+              userProfileId: null
+            });
+
+            toast.success("Check-in analyzed! View insights on Today page.", {
+              autoClose: 5000
+            });
+          }
+        } catch (analysisError) {
+          console.error("AI analysis failed:", analysisError);
+        }
       }
 
       if (onComplete) {
