@@ -116,7 +116,7 @@ const ProfilePage = () => {
             <h2 className="text-2xl font-display font-bold text-gray-900">
               Luna Cycle User
             </h2>
-            <p className="text-sm text-gray-600">
+<p className="text-sm text-gray-600">
               Tracking since {format(new Date(profile.trackingSince), "MMMM d, yyyy")}
             </p>
           </div>
@@ -128,7 +128,7 @@ const ProfilePage = () => {
               <ApperIcon name="Calendar" className="w-5 h-5 text-primary" />
               <span className="text-sm text-gray-600">Avg Cycle</span>
             </div>
-            <p className="text-2xl font-display font-bold text-gray-900">
+<p className="text-2xl font-display font-bold text-gray-900">
               {profile.averageCycleLength}
             </p>
             <p className="text-xs text-gray-500">days</p>
@@ -140,7 +140,7 @@ const ProfilePage = () => {
               <span className="text-sm text-gray-600">Avg Period</span>
             </div>
             <p className="text-2xl font-display font-bold text-gray-900">
-              {profile.averagePeriodLength}
+{profile.averagePeriodLength}
             </p>
             <p className="text-xs text-gray-500">days</p>
           </div>
@@ -151,7 +151,7 @@ const ProfilePage = () => {
               <span className="text-sm text-gray-600">Last Period</span>
             </div>
             <p className="text-lg font-display font-bold text-gray-900">
-              {format(new Date(profile.lastPeriodStart), "MMM d")}
+{format(new Date(profile.lastPeriodStart), "MMM d")}
             </p>
             <p className="text-xs text-gray-500">{format(new Date(profile.lastPeriodStart), "yyyy")}</p>
           </div>
@@ -197,7 +197,7 @@ const ProfilePage = () => {
 
                 <button
                   type="button"
-                  onClick={() => handlePreferenceChange(item.key, !profile.preferences[item.key])}
+onClick={() => handlePreferenceChange(item.key, !profile.preferences[item.key])}
                   disabled={saving}
                   className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 ${
                     profile.preferences[item.key] ? "bg-primary" : "bg-gray-200"

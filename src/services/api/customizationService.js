@@ -1,98 +1,273 @@
-import customSymptomsData from "../mockData/customSymptoms.json";
-import customMoodsData from "../mockData/customMoods.json";
+const { ApperClient } = window.ApperSDK;
 
-let customSymptoms = [...customSymptomsData];
-let customMoods = [...customMoodsData];
-
-const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+const apperClient = new ApperClient({
+  apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
+  apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
+});
 
 const customizationService = {
   getCustomSymptoms: async () => {
-    await delay(200);
-    return [...customSymptoms].sort((a, b) => a.name.localeCompare(b.name));
+    try {
+      const response = await apperClient.fetchRecords('custom_symptom_c', {
+        fields: [
+          {"field": {"Name": "Id"}},
+          {"field": {"Name": "value_c"}},
+          {"field": {"Name": "name_c"}},
+          {"field": {"Name": "icon_c"}},
+          {"field": {"Name": "is_custom_c"}}
+        ],
+        orderBy: [{"fieldName": "name_c", "sorttype": "ASC"}]
+      });
+
+      if (!response.success) {
+        console.error(response.message);
+        return [];
+      }
+
+      return (response.data || []).map(symptom => ({
+        Id: symptom.Id,
+        value: symptom.value_c || '',
+        name: symptom.name_c || '',
+        icon: symptom.icon_c || 'Heart',
+        isCustom: symptom.is_custom_c ?? true
+      }));
+    } catch (error) {
+      console.error("Error fetching custom symptoms:", error);
+      return [];
+    }
   },
 
   getCustomMoods: async () => {
-    await delay(200);
-    return [...customMoods].sort((a, b) => a.name.localeCompare(b.name));
+    try {
+      const response = await apperClient.fetchRecords('custom_mood_c', {
+        fields: [
+          {"field": {"Name": "Id"}},
+          {"field": {"Name": "value_c"}},
+          {"field": {"Name": "name_c"}},
+          {"field": {"Name": "emoji_c"}},
+          {"field": {"Name": "color_c"}},
+          {"field": {"Name": "is_custom_c"}}
+        ],
+        orderBy: [{"fieldName": "name_c", "sorttype": "ASC"}]
+      });
+
+      if (!response.success) {
+        console.error(response.message);
+        return [];
+      }
+
+      return (response.data || []).map(mood => ({
+        Id: mood.Id,
+        value: mood.value_c || '',
+        name: mood.name_c || '',
+        emoji: mood.emoji_c || '😊',
+        color: mood.color_c || 'text-gray-800',
+        isCustom: mood.is_custom_c ?? true
+      }));
+    } catch (error) {
+      console.error("Error fetching custom moods:", error);
+      return [];
+    }
   },
 
   createCustomSymptom: async (symptomData) => {
-    await delay(200);
-    const newSymptom = {
-      Id: Math.max(...customSymptoms.map(s => s.Id), 0) + 1,
-      value: symptomData.name.toLowerCase().replace(/\s+/g, '_'),
-      name: symptomData.name,
-      icon: symptomData.icon,
-      isCustom: true
-    };
-    customSymptoms.push(newSymptom);
-    return { ...newSymptom };
+    try {
+      const payload = {
+        value_c: symptomData.name.toLowerCase().replace(/\s+/g, '_'),
+        name_c: symptomData.name,
+        icon_c: symptomData.icon || 'Heart',
+        is_custom_c: true
+      };
+
+      const response = await apperClient.createRecord('custom_symptom_c', {
+        records: [payload]
+      });
+
+      if (!response.success) {
+        console.error(response.message);
+        return null;
+      }
+
+      if (response.results && response.results.length > 0) {
+        const result = response.results[0];
+        if (result.success && result.data) {
+          return {
+            Id: result.data.Id,
+            value: result.data.value_c || '',
+            name: result.data.name_c || '',
+            icon: result.data.icon_c || 'Heart',
+            isCustom: result.data.is_custom_c ?? true
+          };
+        }
+      }
+
+      return null;
+    } catch (error) {
+      console.error("Error creating custom symptom:", error);
+      return null;
+    }
   },
 
   createCustomMood: async (moodData) => {
-    await delay(200);
-    const newMood = {
-      Id: Math.max(...customMoods.map(m => m.Id), 0) + 1,
-      value: moodData.name.toLowerCase().replace(/\s+/g, '_'),
-      name: moodData.name,
-      emoji: moodData.emoji,
-      color: moodData.color,
-      isCustom: true
-    };
-    customMoods.push(newMood);
-    return { ...newMood };
+    try {
+      const payload = {
+        value_c: moodData.name.toLowerCase().replace(/\s+/g, '_'),
+        name_c: moodData.name,
+        emoji_c: moodData.emoji || '😊',
+        color_c: moodData.color || 'text-gray-800',
+        is_custom_c: true
+      };
+
+      const response = await apperClient.createRecord('custom_mood_c', {
+        records: [payload]
+      });
+
+      if (!response.success) {
+        console.error(response.message);
+        return null;
+      }
+
+      if (response.results && response.results.length > 0) {
+        const result = response.results[0];
+        if (result.success && result.data) {
+          return {
+            Id: result.data.Id,
+            value: result.data.value_c || '',
+            name: result.data.name_c || '',
+            emoji: result.data.emoji_c || '😊',
+            color: result.data.color_c || 'text-gray-800',
+            isCustom: result.data.is_custom_c ?? true
+          };
+        }
+      }
+
+      return null;
+    } catch (error) {
+      console.error("Error creating custom mood:", error);
+      return null;
+    }
   },
 
   updateCustomSymptom: async (id, symptomData) => {
-    await delay(200);
-    const index = customSymptoms.findIndex(s => s.Id === parseInt(id));
-    if (index !== -1) {
-      customSymptoms[index] = {
-        ...customSymptoms[index],
-        name: symptomData.name,
-        icon: symptomData.icon,
-        value: symptomData.name.toLowerCase().replace(/\s+/g, '_')
+    try {
+      const payload = {
+        Id: parseInt(id),
+        name_c: symptomData.name,
+        icon_c: symptomData.icon,
+        value_c: symptomData.name.toLowerCase().replace(/\s+/g, '_')
       };
-      return { ...customSymptoms[index] };
+
+      const response = await apperClient.updateRecord('custom_symptom_c', {
+        records: [payload]
+      });
+
+      if (!response.success) {
+        console.error(response.message);
+        return null;
+      }
+
+      if (response.results && response.results.length > 0) {
+        const result = response.results[0];
+        if (result.success && result.data) {
+          return {
+            Id: result.data.Id,
+            value: result.data.value_c || '',
+            name: result.data.name_c || '',
+            icon: result.data.icon_c || 'Heart',
+            isCustom: result.data.is_custom_c ?? true
+          };
+        }
+      }
+
+      return null;
+    } catch (error) {
+      console.error(`Error updating custom symptom ${id}:`, error);
+      return null;
     }
-    return null;
   },
 
   updateCustomMood: async (id, moodData) => {
-    await delay(200);
-    const index = customMoods.findIndex(m => m.Id === parseInt(id));
-    if (index !== -1) {
-      customMoods[index] = {
-        ...customMoods[index],
-        name: moodData.name,
-        emoji: moodData.emoji,
-        color: moodData.color,
-        value: moodData.name.toLowerCase().replace(/\s+/g, '_')
+    try {
+      const payload = {
+        Id: parseInt(id),
+        name_c: moodData.name,
+        emoji_c: moodData.emoji,
+        color_c: moodData.color,
+        value_c: moodData.name.toLowerCase().replace(/\s+/g, '_')
       };
-      return { ...customMoods[index] };
+
+      const response = await apperClient.updateRecord('custom_mood_c', {
+        records: [payload]
+      });
+
+      if (!response.success) {
+        console.error(response.message);
+        return null;
+      }
+
+      if (response.results && response.results.length > 0) {
+        const result = response.results[0];
+        if (result.success && result.data) {
+          return {
+            Id: result.data.Id,
+            value: result.data.value_c || '',
+            name: result.data.name_c || '',
+            emoji: result.data.emoji_c || '😊',
+            color: result.data.color_c || 'text-gray-800',
+            isCustom: result.data.is_custom_c ?? true
+          };
+        }
+      }
+
+      return null;
+    } catch (error) {
+      console.error(`Error updating custom mood ${id}:`, error);
+      return null;
     }
-    return null;
   },
 
   deleteCustomSymptom: async (id) => {
-    await delay(200);
-    const index = customSymptoms.findIndex(s => s.Id === parseInt(id));
-    if (index !== -1) {
-      customSymptoms.splice(index, 1);
-      return true;
+    try {
+      const response = await apperClient.deleteRecord('custom_symptom_c', {
+        RecordIds: [parseInt(id)]
+      });
+
+      if (!response.success) {
+        console.error(response.message);
+        return false;
+      }
+
+      if (response.results && response.results.length > 0) {
+        return response.results[0].success;
+      }
+
+      return false;
+    } catch (error) {
+      console.error(`Error deleting custom symptom ${id}:`, error);
+      return false;
     }
-    return false;
   },
 
   deleteCustomMood: async (id) => {
-    await delay(200);
-    const index = customMoods.findIndex(m => m.Id === parseInt(id));
-    if (index !== -1) {
-      customMoods.splice(index, 1);
-      return true;
+    try {
+      const response = await apperClient.deleteRecord('custom_mood_c', {
+        RecordIds: [parseInt(id)]
+      });
+
+      if (!response.success) {
+        console.error(response.message);
+        return false;
+      }
+
+      if (response.results && response.results.length > 0) {
+        return response.results[0].success;
+      }
+
+      return false;
+    } catch (error) {
+      console.error(`Error deleting custom mood ${id}:`, error);
+return false;
     }
-    return false;
   }
 };
 

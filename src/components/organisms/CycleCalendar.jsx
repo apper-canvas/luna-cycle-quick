@@ -39,19 +39,17 @@ const CycleCalendar = ({ onDateSelect }) => {
 
   const getDayData = (date) => {
     const dateStr = format(date, "yyyy-MM-dd");
-    const entry = entries.find(e => e.date === dateStr);
-    
+const entry = entries.find(e => e.date === dateStr);
     let phase = null;
     let isPredicted = false;
 
     if (prediction) {
       const currentDate = new Date(dateStr);
-      const periodStart = new Date(prediction.predictedPeriodStart);
+const periodStart = new Date(prediction.predictedPeriodStart);
       const periodEnd = new Date(prediction.predictedPeriodEnd);
       const fertileStart = new Date(prediction.fertileWindowStart);
       const fertileEnd = new Date(prediction.fertileWindowEnd);
       const ovulation = new Date(prediction.ovulationDay);
-
       if (currentDate >= periodStart && currentDate <= periodEnd) {
         phase = "menstrual";
         isPredicted = true;
@@ -84,7 +82,7 @@ const CycleCalendar = ({ onDateSelect }) => {
   };
 
   const getFlowDots = (intensity) => {
-    const counts = { light: 1, medium: 2, heavy: 4 };
+const counts = { light: 1, medium: 2, heavy: 4 };
     return counts[intensity] || 0;
   };
 
@@ -168,7 +166,7 @@ const CycleCalendar = ({ onDateSelect }) => {
                   {format(day, "d")}
                 </span>
                 
-                {entry && entry.flowIntensity !== "none" && (
+{entry && entry.flowIntensity !== "none" && (
                   <div className="flex gap-0.5">
                     {[...Array(getFlowDots(entry.flowIntensity))].map((_, i) => (
                       <div key={i} className="w-1 h-1 rounded-full bg-accent" />

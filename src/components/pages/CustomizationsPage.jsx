@@ -133,13 +133,13 @@ function CustomizationsPage() {
     }
   }
 
-  function startEditSymptom(symptom) {
+function startEditSymptom(symptom) {
     setEditingSymptom(symptom);
     setSymptomForm({ name: symptom.name, icon: symptom.icon });
     setShowSymptomForm(true);
   }
 
-  function startEditMood(mood) {
+function startEditMood(mood) {
     setEditingMood(mood);
     setMoodForm({ name: mood.name, emoji: mood.emoji, color: mood.color });
     setShowMoodForm(true);
@@ -292,15 +292,15 @@ function CustomizationsPage() {
               ) : (
                 customSymptoms.map((symptom) => (
                   <motion.div
-                    key={symptom.Id}
+key={symptom.Id}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     className="bg-white rounded-xl p-4 shadow-sm flex items-center gap-3"
                   >
-                    <div className="p-2 bg-primary/5 rounded-lg">
+<div className="p-2 bg-primary/5 rounded-lg">
                       <ApperIcon name={symptom.icon} className="w-5 h-5 text-primary" />
                     </div>
-                    <span className="flex-1 font-medium text-gray-800">{symptom.name}</span>
+<span className="flex-1 font-medium text-gray-800">{symptom.name}</span>
                     <div className="flex gap-2">
                       <button
                         onClick={() => startEditSymptom(symptom)}
@@ -309,7 +309,7 @@ function CustomizationsPage() {
                         <ApperIcon name="Edit" size={18} className="text-gray-600" />
                       </button>
                       <button
-                        onClick={() => handleDeleteSymptom(symptom.Id)}
+onClick={() => handleDeleteSymptom(symptom.Id)}
                         className="p-2 hover:bg-red-50 rounded-lg transition-colors"
                       >
                         <ApperIcon name="Trash2" size={18} className="text-error" />
@@ -407,12 +407,12 @@ function CustomizationsPage() {
               ) : (
                 customMoods.map((mood) => (
                   <motion.div
-                    key={mood.Id}
+key={mood.Id}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     className="bg-white rounded-xl p-4 shadow-sm flex items-center gap-3"
                   >
-                    <span className="text-3xl">{mood.emoji}</span>
+<span className="text-3xl">{mood.emoji}</span>
                     <span className={cn("flex-1 font-medium", mood.color)}>{mood.name}</span>
                     <div className="flex gap-2">
                       <button
@@ -422,7 +422,7 @@ function CustomizationsPage() {
                         <ApperIcon name="Edit" size={18} className="text-gray-600" />
                       </button>
                       <button
-                        onClick={() => handleDeleteMood(mood.Id)}
+onClick={() => handleDeleteMood(mood.Id)}
                         className="p-2 hover:bg-red-50 rounded-lg transition-colors"
                       >
                         <ApperIcon name="Trash2" size={18} className="text-error" />

@@ -26,18 +26,18 @@ const StatsOverview = () => {
         cycleService.getAll()
       ]);
 
-      const symptoms = await cycleService.getRecentSymptoms(30);
+const symptoms = await cycleService.getRecentSymptoms(30);
       const mostCommonSymptom = Object.entries(symptoms).sort((a, b) => b[1] - a[1])[0];
 
       const moodCounts = {};
-      entries.forEach(entry => {
+entries.forEach(entry => {
         if (entry.mood) {
           moodCounts[entry.mood] = (moodCounts[entry.mood] || 0) + 1;
         }
       });
       const mostCommonMood = Object.entries(moodCounts).sort((a, b) => b[1] - a[1])[0];
 
-      const trackingDays = differenceInDays(new Date(), new Date(profileData.trackingSince));
+const trackingDays = differenceInDays(new Date(), new Date(profileData.trackingSince));
 
       setProfile(profileData);
       setStats({
@@ -61,13 +61,13 @@ const StatsOverview = () => {
     {
       icon: "Calendar",
       label: "Avg Cycle Length",
-      value: `${profile.averageCycleLength} days`,
+value: `${profile.averageCycleLength} days`,
       color: "from-primary/20 to-primary/10",
       textColor: "text-primary"
     },
     {
       icon: "Clock",
-      label: "Avg Period Length",
+label: "Avg Period Length",
       value: `${profile.averagePeriodLength} days`,
       color: "from-accent/20 to-accent/10",
       textColor: "text-accent"

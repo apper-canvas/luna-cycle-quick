@@ -1,8 +1,11 @@
+import { useContext } from 'react';
 import { NavLink } from 'react-router-dom';
 import ApperIcon from '@/components/ApperIcon';
 import { cn } from '@/utils/cn';
-
+import { AuthContext } from '@/App';
 function TopNav() {
+  const authContext = useContext(AuthContext);
+  
   const navItems = [
     { path: '/', icon: 'Calendar', label: 'Today' },
     { path: '/calendar', icon: 'CalendarDays', label: 'Calendar' },
@@ -48,8 +51,20 @@ function TopNav() {
                     <span className="text-sm font-medium">{item.label}</span>
                   </>
                 )}
-              </NavLink>
+</NavLink>
             ))}
+            {authContext && (
+              <button
+                onClick={authContext.logout}
+                className={cn(
+                  'flex items-center space-x-2 px-4 py-2 rounded-lg transition-all duration-200',
+                  'hover:bg-red-50 text-gray-600 hover:text-red-600'
+                )}
+              >
+                <ApperIcon name="LogOut" size={20} />
+                <span className="text-sm font-medium">Log Out</span>
+              </button>
+            )}
           </div>
         </div>
       </div>

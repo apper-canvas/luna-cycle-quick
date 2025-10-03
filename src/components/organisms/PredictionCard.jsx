@@ -34,11 +34,11 @@ const PredictionCard = () => {
   if (!prediction) return null;
 
   const today = new Date();
-  const nextPeriod = new Date(prediction.predictedPeriodStart);
+const nextPeriod = new Date(prediction.predictedPeriodStart);
   const daysUntilPeriod = differenceInDays(nextPeriod, today);
 
   const getPhaseInfo = () => {
-    const ovulationDate = new Date(prediction.ovulationDay);
+const ovulationDate = new Date(prediction.ovulationDay);
     const fertileStart = new Date(prediction.fertileWindowStart);
     const fertileEnd = new Date(prediction.fertileWindowEnd);
 
@@ -74,7 +74,7 @@ const PredictionCard = () => {
   };
 
   const phaseInfo = getPhaseInfo();
-  const confidenceColor = prediction.confidence >= 80 ? "success" : prediction.confidence >= 60 ? "warning" : "error";
+const confidenceColor = prediction.confidence >= 80 ? "success" : prediction.confidence >= 60 ? "warning" : "error";
 
   return (
     <motion.div
@@ -97,7 +97,7 @@ const PredictionCard = () => {
           </div>
         </div>
         <Badge variant={confidenceColor}>
-          {prediction.confidence}% Confidence
+{prediction.confidence}% Confidence
         </Badge>
       </div>
 
@@ -111,7 +111,7 @@ const PredictionCard = () => {
             {daysUntilPeriod > 0 ? `${daysUntilPeriod} days` : "Today"}
           </p>
           <p className="text-xs text-gray-500 mt-1">
-            {format(nextPeriod, "MMM d, yyyy")}
+{format(nextPeriod, "MMM d, yyyy")}
           </p>
         </div>
 
@@ -121,7 +121,7 @@ const PredictionCard = () => {
             <span className="text-sm font-medium text-gray-600">Ovulation</span>
           </div>
           <p className="text-2xl font-display font-bold text-gray-900">
-            {format(new Date(prediction.ovulationDay), "MMM d")}
+{format(new Date(prediction.ovulationDay), "MMM d")}
           </p>
           <p className="text-xs text-gray-500 mt-1">
             Fertile: {format(new Date(prediction.fertileWindowStart), "MMM d")} - {format(new Date(prediction.fertileWindowEnd), "MMM d")}
@@ -132,7 +132,7 @@ const PredictionCard = () => {
       <div className="flex items-center justify-between pt-4 border-t border-gray-200">
         <div className="flex items-center gap-2 text-sm text-gray-600">
           <ApperIcon name="TrendingUp" className="w-4 h-4" />
-          <span>Based on {prediction.basedOnCycles} cycles</span>
+<span>Based on {prediction.basedOnCycles} cycles</span>
         </div>
         <div className="relative w-16 h-16">
           <svg className="w-16 h-16 transform -rotate-90">
@@ -153,7 +153,7 @@ const PredictionCard = () => {
               strokeWidth="4"
               fill="none"
               strokeDasharray={`${2 * Math.PI * 28}`}
-              strokeDashoffset={`${2 * Math.PI * 28 * (1 - prediction.confidence / 100)}`}
+strokeDashoffset={`${2 * Math.PI * 28 * (1 - prediction.confidence / 100)}`}
               className="text-primary transition-all duration-500"
               strokeLinecap="round"
             />

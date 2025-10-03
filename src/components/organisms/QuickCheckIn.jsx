@@ -19,7 +19,7 @@ const QuickCheckIn = ({ onComplete, existingEntry = null }) => {
 
   useEffect(() => {
     if (existingEntry) {
-      setFlowIntensity(existingEntry.flowIntensity);
+setFlowIntensity(existingEntry.flowIntensity);
       setMood(existingEntry.mood);
       setSymptoms(existingEntry.symptoms || []);
       setNotes(existingEntry.notes || "");
@@ -32,7 +32,7 @@ const QuickCheckIn = ({ onComplete, existingEntry = null }) => {
 
     try {
       const entryData = {
-        date: format(new Date(), "yyyy-MM-dd"),
+date: format(new Date(), "yyyy-MM-dd"),
         flowIntensity,
         mood,
         symptoms,
@@ -40,9 +40,9 @@ const QuickCheckIn = ({ onComplete, existingEntry = null }) => {
       };
 
       if (existingEntry) {
-        await cycleService.update(existingEntry.Id, entryData);
+await cycleService.update(existingEntry.Id, entryData);
         toast.success("Check-in updated successfully!");
-      } else {
+} else {
         await cycleService.create(entryData);
         toast.success("Check-in saved successfully!");
       }

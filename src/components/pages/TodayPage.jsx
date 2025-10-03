@@ -74,11 +74,11 @@ const TodayPage = () => {
                 <h3 className="text-lg font-display font-bold text-gray-900">
                   Today's Tip
                 </h3>
-                <Badge variant="primary">
+<Badge variant="primary">
                   {todayInsight.category.charAt(0).toUpperCase() + todayInsight.category.slice(1)}
                 </Badge>
               </div>
-              <p className="text-gray-800 font-body leading-relaxed">
+<p className="text-gray-800 font-body leading-relaxed">
                 {todayInsight.message}
               </p>
             </div>

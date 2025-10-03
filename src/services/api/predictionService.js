@@ -1,33 +1,159 @@
-import predictionsData from "../mockData/cyclePredictions.json";
+const { ApperClient } = window.ApperSDK;
 
-let predictions = [...predictionsData];
-
-const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+const apperClient = new ApperClient({
+  apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
+  apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
+});
 
 const predictionService = {
   getCurrent: async () => {
-    await delay(300);
-    return predictions.length > 0 ? { ...predictions[0] } : null;
+    try {
+      const response = await apperClient.fetchRecords('cycle_prediction_c', {
+        fields: [
+          {"field": {"Name": "Id"}},
+          {"field": {"Name": "predicted_period_start_c"}},
+          {"field": {"Name": "predicted_period_end_c"}},
+          {"field": {"Name": "fertile_window_start_c"}},
+          {"field": {"Name": "fertile_window_end_c"}},
+          {"field": {"Name": "ovulation_day_c"}},
+          {"field": {"Name": "confidence_c"}},
+          {"field": {"Name": "based_on_cycles_c"}}
+        ],
+        orderBy: [{"fieldName": "Id", "sorttype": "DESC"}],
+        pagingInfo: {"limit": 1, "offset": 0}
+      });
+
+      if (!response.success || !response.data || response.data.length === 0) {
+        return null;
+      }
+
+      const prediction = response.data[0];
+      return {
+        Id: prediction.Id,
+        predictedPeriodStart: prediction.predicted_period_start_c,
+        predictedPeriodEnd: prediction.predicted_period_end_c,
+        fertileWindowStart: prediction.fertile_window_start_c,
+        fertileWindowEnd: prediction.fertile_window_end_c,
+        ovulationDay: prediction.ovulation_day_c,
+        confidence: prediction.confidence_c || 0,
+        basedOnCycles: prediction.based_on_cycles_c || 0
+      };
+    } catch (error) {
+      console.error("Error fetching current prediction:", error);
+      return null;
+    }
   },
 
   update: async (predictionData) => {
-    await delay(400);
-    if (predictions.length > 0) {
-      predictions[0] = {
-        ...predictions[0],
-        ...predictionData
+    try {
+      const currentResponse = await apperClient.fetchRecords('cycle_prediction_c', {
+        fields: [{"field": {"Name": "Id"}}],
+        orderBy: [{"fieldName": "Id", "sorttype": "DESC"}],
+        pagingInfo: {"limit": 1, "offset": 0}
+      });
+
+      let predictionId = null;
+      if (currentResponse.success && currentResponse.data && currentResponse.data.length > 0) {
+        predictionId = currentResponse.data[0].Id;
+      }
+
+      if (!predictionId) {
+        return await predictionService.create(predictionData);
+      }
+
+      const payload = {
+        Id: predictionId
       };
-      return { ...predictions[0] };
+
+      if (predictionData.predictedPeriodStart) payload.predicted_period_start_c = predictionData.predictedPeriodStart;
+      if (predictionData.predictedPeriodEnd) payload.predicted_period_end_c = predictionData.predictedPeriodEnd;
+      if (predictionData.fertileWindowStart) payload.fertile_window_start_c = predictionData.fertileWindowStart;
+      if (predictionData.fertileWindowEnd) payload.fertile_window_end_c = predictionData.fertileWindowEnd;
+      if (predictionData.ovulationDay) payload.ovulation_day_c = predictionData.ovulationDay;
+      if (predictionData.confidence !== undefined) payload.confidence_c = predictionData.confidence;
+      if (predictionData.basedOnCycles !== undefined) payload.based_on_cycles_c = predictionData.basedOnCycles;
+
+      const response = await apperClient.updateRecord('cycle_prediction_c', {
+        records: [payload]
+      });
+
+      if (!response.success) {
+        console.error(response.message);
+        return null;
+      }
+
+      if (response.results && response.results.length > 0) {
+        const result = response.results[0];
+        if (result.success && result.data) {
+          return {
+            Id: result.data.Id,
+            predictedPeriodStart: result.data.predicted_period_start_c,
+            predictedPeriodEnd: result.data.predicted_period_end_c,
+            fertileWindowStart: result.data.fertile_window_start_c,
+            fertileWindowEnd: result.data.fertile_window_end_c,
+            ovulationDay: result.data.ovulation_day_c,
+            confidence: result.data.confidence_c || 0,
+            basedOnCycles: result.data.based_on_cycles_c || 0
+          };
+        }
+      }
+
+      return null;
+    } catch (error) {
+      console.error("Error updating prediction:", error);
+      return null;
     }
-    return null;
+  },
+
+  create: async (predictionData) => {
+    try {
+      const payload = {
+        predicted_period_start_c: predictionData.predictedPeriodStart,
+        predicted_period_end_c: predictionData.predictedPeriodEnd,
+        fertile_window_start_c: predictionData.fertileWindowStart,
+        fertile_window_end_c: predictionData.fertileWindowEnd,
+        ovulation_day_c: predictionData.ovulationDay,
+        confidence_c: predictionData.confidence || 0,
+        based_on_cycles_c: predictionData.basedOnCycles || 0
+      };
+
+      const response = await apperClient.createRecord('cycle_prediction_c', {
+        records: [payload]
+      });
+
+      if (!response.success) {
+        console.error(response.message);
+        return null;
+      }
+
+      if (response.results && response.results.length > 0) {
+        const result = response.results[0];
+        if (result.success && result.data) {
+          return {
+            Id: result.data.Id,
+            predictedPeriodStart: result.data.predicted_period_start_c,
+            predictedPeriodEnd: result.data.predicted_period_end_c,
+            fertileWindowStart: result.data.fertile_window_start_c,
+            fertileWindowEnd: result.data.fertile_window_end_c,
+            ovulationDay: result.data.ovulation_day_c,
+            confidence: result.data.confidence_c || 0,
+            basedOnCycles: result.data.based_on_cycles_c || 0
+          };
+        }
+      }
+
+      return null;
+    } catch (error) {
+      console.error("Error creating prediction:", error);
+      return null;
+    }
   },
 
   recalculate: async (cycleEntries) => {
-    await delay(500);
-    
     const periodEntries = cycleEntries.filter(e => e.flowIntensity !== "none");
     if (periodEntries.length < 2) {
-      return predictions[0] ? { ...predictions[0] } : null;
+      const current = await predictionService.getCurrent();
+      return current;
     }
 
     const cycles = [];
@@ -78,7 +204,6 @@ const predictionService = {
     const confidence = Math.min(95, 60 + (cycles.length * 5));
 
     const updatedPrediction = {
-      Id: 1,
       predictedPeriodStart: nextPeriodStart.toISOString().split("T")[0],
       predictedPeriodEnd: nextPeriodEnd.toISOString().split("T")[0],
       fertileWindowStart: fertileStart.toISOString().split("T")[0],
@@ -88,8 +213,7 @@ const predictionService = {
       basedOnCycles: cycles.length
     };
 
-    predictions[0] = updatedPrediction;
-    return { ...updatedPrediction };
+return await predictionService.update(updatedPrediction);
   }
 };
 
