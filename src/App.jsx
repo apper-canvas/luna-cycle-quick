@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
+import TopNav from "@/components/molecules/TopNav";
 import BottomNav from "@/components/molecules/BottomNav";
 import TodayPage from "@/components/pages/TodayPage";
 import CalendarPage from "@/components/pages/CalendarPage";
@@ -8,9 +9,10 @@ import ProfilePage from "@/components/pages/ProfilePage";
 import CustomizationsPage from "@/components/pages/CustomizationsPage";
 
 function App() {
-  return (
+return (
     <BrowserRouter>
-      <div className="min-h-screen bg-background pb-20 lg:pb-8">
+      <TopNav />
+      <div className="min-h-screen bg-background pb-20 lg:pb-8 pt-20 lg:pt-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <Routes>
             <Route path="/" element={<TodayPage />} />
