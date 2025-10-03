@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import InsightsFeed from "@/components/organisms/InsightsFeed";
 import StatsOverview from "@/components/organisms/StatsOverview";
-
+import TrendCharts from "@/components/organisms/TrendCharts";
 const InsightsPage = () => {
   return (
     <div className="space-y-6">
@@ -17,12 +17,23 @@ const InsightsPage = () => {
         </p>
       </motion.div>
 
-      <StatsOverview />
+<StatsOverview />
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.3 }}
+        transition={{ delay: 0.2 }}
+      >
+        <h2 className="text-2xl font-display font-bold text-gray-900 mb-4">
+          Symptom Trends
+        </h2>
+        <TrendCharts />
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.4 }}
       >
         <h2 className="text-2xl font-display font-bold text-gray-900 mb-4">
           Your Insights

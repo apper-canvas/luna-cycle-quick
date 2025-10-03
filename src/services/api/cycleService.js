@@ -83,7 +83,45 @@ const cycleService = {
       });
     });
 
-    return symptomCounts;
+return symptomCounts;
+  },
+
+  getSymptomTrends: async (days = 90) => {
+    await delay(200);
+    const cutoffDate = new Date();
+    cutoffDate.setDate(cutoffDate.getDate() - days);
+    
+    const recentEntries = cycleEntries.filter(entry => 
+      new Date(entry.date) >= cutoffDate
+    );
+
+    const dateMap = new Map();
+    recentEntries.forEach(entry => {
+      const dateStr = entry.date;
+      if (!dateMap.has(dateStr)) {
+        dateMap.set(dateStr, {});
+      }
+      const dayData = dateMap.get(dateStr);
+      entry.symptoms.forEach(symptom => {
+        dayData[symptom] = (dayData[symptom] || 0) + 1;
+      });
+    });
+
+    const allSymptoms = new Set();
+    recentEntries.forEach(entry => {
+      entry.symptoms.forEach(symptom => allSymptoms.add(symptom));
+    });
+
+    const sortedDates = Array.from(dateMap.keys()).sort();
+    
+    const series = Array.from(allSymptoms).map(symptom => ({
+      name: symptom.split('_').map(word => 
+        word.charAt(0).toUpperCase() + word.slice(1)
+      ).join(' '),
+      data: sortedDates.map(date => dateMap.get(date)[symptom] || 0)
+    }));
+
+    return { dates: sortedDates, series };
   }
 };
 
