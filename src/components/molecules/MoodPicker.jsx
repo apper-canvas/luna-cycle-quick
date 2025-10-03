@@ -11,7 +11,7 @@ const defaultMoods = [
   { value: "tired", emoji: "😴", label: "Tired", color: "text-primary", isCustom: false }
 ];
 
-const MoodPicker = ({ value, onChange }) => {
+const MoodPicker = ({ value, onChange, allMoods }) => {
   return (
 <div className="grid grid-cols-3 gap-3">
       {allMoods.map((mood) => (

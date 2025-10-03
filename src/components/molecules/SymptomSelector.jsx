@@ -14,7 +14,7 @@ const defaultSymptoms = [
   { value: "nausea", label: "Nausea", icon: "AlertCircle", isCustom: false }
 ];
 
-const SymptomSelector = ({ value = [], onChange }) => {
+const SymptomSelector = ({ value = [], onChange, allSymptoms }) => {
   const toggleSymptom = (symptom) => {
     if (value.includes(symptom)) {
       onChange(value.filter(s => s !== symptom));
